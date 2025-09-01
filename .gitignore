@@ -1,0 +1,18 @@
+# Archivos de entorno
+# ¡NUNCA subas este archivo a tu repositorio!
+.env
+
+# Directorio del entorno virtual de Python
+.venv/
+venv/
+env/
+
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+
+# Base de datos de desarrollo de SQLite (si la usaras)
+db.sqlite3
+
+# Archivos de logs
+*.log

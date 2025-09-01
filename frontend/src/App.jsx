@@ -1,32 +1,40 @@
-import './App.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import './App.css';
 
 function App() {
-  return (
-    <>
-      <h1>Vite + React</h1>
-    </>
-  )
-  const [message, setMessage] = useState('');
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Llama a la API del backend de Django
-    fetch('http://127.0.0.1:8000/api/hello/')
+    // Hacemos la petición a la API de Django para obtener los productos
+    fetch('http://127.0.0.1:8000/api/products/')
       .then(response => response.json())
       .then(data => {
-        setMessage(data.message);
+        setProducts(data);
       })
       .catch(error => {
-        console.error("Hubo un error al obtener los datos:", error);
+        console.error("Hubo un error al obtener los productos:", error);
+        setError("No se pudieron cargar los productos. Asegúrate de que el servidor de Django esté corriendo y la configuración de CORS sea correcta.");
       });
   }, []); // El array vacío asegura que el efecto se ejecute solo una vez
 
   return (
-    <div>
-      <h1>Frontend con React</h1>
-      <p>Mensaje del Backend: <strong>{message || "Cargando..."}</strong></p>
-    </div>
+    <>
+      <h1>Lista de Productos desde Django</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className="card">
+        {products.length > 0 ? (
+          <ul>
+            {products.map(product => (
+              <li key={product.id}>{product.name} - ${product.price}</li>
+            ))}
+          </ul>
+        ) : (
+          !error && <p>Cargando productos...</p>
+        )}
+      </div>
+    </>
   );
 }
 
-export default App
+export default App;
