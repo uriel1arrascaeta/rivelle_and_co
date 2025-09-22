@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     # my apps
-    'products.apps.ProductsConfig',
+    'products.apps.ProductsConfig',  # Puedes dejarla o quitarla si ya no la usas
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [

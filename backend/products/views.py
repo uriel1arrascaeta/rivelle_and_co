@@ -1,11 +1,9 @@
+from django.shortcuts import render
 from rest_framework import viewsets
-from products.models import Product
-from products.serializers import ProductSerializer
+from .models import Product
+from .serializers import ProductSerializer
 
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    API endpoint that allows products to be viewed.
-    """
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('-created_at')
     serializer_class = ProductSerializer

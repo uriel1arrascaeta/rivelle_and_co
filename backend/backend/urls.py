@@ -3,7 +3,8 @@ from django.urls import path, include
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/api/', permanent=False)),
+    path('', RedirectView.as_view(url='/api/v1/blog/posts/', permanent=False)),
     path('admin/', admin.site.urls),
-    path('api/', include('products.urls'))
+    # Añadimos 'v1' para versionar la API
+    path('api/v1/blog/', include('blog.urls')),
 ]
