@@ -31,14 +31,16 @@ function PostDetail() {
   if (!post) return null;
 
   return (
-    <article>
-      <h1>{post.title}</h1>
-      <p>Por: {post.author} - {new Date(post.created_at).toLocaleDateString()}</p>
-      {/* Usamos dangerouslySetInnerHTML si tu contenido tiene HTML */}
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
-      <br />
-      <Link to="/">← Volver a la lista</Link>
-    </article>
+    <div className="post-detail-container">
+      <article className="post-detail-article">
+        <h1>{post.title}</h1>
+        <p>Por: {post.author} - {new Date(post.created_at).toLocaleDateString()}</p>
+        {/* Usamos dangerouslySetInnerHTML si tu contenido tiene HTML */}
+        <div className="content" dangerouslySetInnerHTML={{ __html: post.content }} />
+        <br />
+        <Link to="/">← Volver a la lista</Link>
+      </article>
+    </div>
   );
 }
 

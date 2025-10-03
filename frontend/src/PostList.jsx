@@ -33,19 +33,21 @@ function PostList() {
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div>
+    <div className="post-list-container" data-testid="post-list-container">
       <h1>Nuestro Blog</h1>
       {posts.length === 0 && <p>No hay posts todavía. ¡Crea algunos en el panel de admin de Django!</p>}
-      <ul>
+      <div className="post-list">
         {posts.map(post => (
-          <li key={post.id}>
-            <Link to={`/post/${post.slug}`}>
-              <h2>{post.title}</h2>
+          <div className="post-card" key={post.id}>
+            <Link to={`/post/${post.slug}`} className="post-card-link">
+              <div className="post-card-content">
+                <h2>{post.title}</h2>
+                <p>Por: {post.author} - {new Date(post.created_at).toLocaleDateString()}</p>
+              </div>
             </Link>
-            <p>Por: {post.author} - {new Date(post.created_at).toLocaleDateString()}</p>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
