@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -11,12 +12,12 @@ export default function Hero() {
           La herramienta que conecta corredores con compradores.
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-          <button className="w-full sm:w-auto bg-indigo-600 text-white font-semibold py-3 px-8 rounded-full transition-transform duration-300 ease-in-out hover:scale-105">
+          <Link to="/register" className="w-full sm:w-auto bg-indigo-600 text-white font-semibold py-3 px-8 rounded-full transition-transform duration-300 ease-in-out hover:scale-105">
             Prueba HomeOS
-          </button>
-          <button className="w-full sm:w-auto bg-transparent text-indigo-600 font-semibold py-3 px-8 border border-indigo-600 rounded-full transition-all duration-300 ease-in-out hover:bg-indigo-600 hover:text-white">
+          </Link>
+          <Link to="/blog" className="w-full sm:w-auto bg-transparent text-indigo-600 font-semibold py-3 px-8 border border-indigo-600 rounded-full transition-all duration-300 ease-in-out hover:bg-indigo-600 hover:text-white">
             Explora HomeOS
-          </button>
+          </Link>
         </div>
       </div>
     </main>

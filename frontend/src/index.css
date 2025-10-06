@@ -6,3 +6,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* --- Estilos personalizados para react-calendar --- */
+.react-calendar {
+  @apply border-none rounded-lg shadow-md;
+}
+
+.react-calendar__tile {
+  @apply rounded-full;
+}
+
+.react-calendar__tile--now {
+  @apply bg-indigo-100 text-indigo-800 font-bold;
+}
+
+.react-calendar__tile--now:hover {
+  @apply bg-indigo-200;
+}
+
+.react-calendar__tile--active {
+  @apply bg-indigo-600 text-white !important;
+}
+
+.react-calendar__navigation button {
+  @apply font-bold;
+}

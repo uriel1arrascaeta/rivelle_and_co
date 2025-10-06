@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #0a2e5c;
+  --primary-color: #292b2c;
   /* Azul oscuro profesional */
   --secondary-color: #f4f7fc;
   /* Gris claro para fondos */
@@ -56,55 +56,6 @@ main {
   flex-grow: 1;
   padding: 2rem;
   width: 100%;
-}
-
-/* --- Estilos de la lista de Posts --- */
-.post-list-container h1 {
-  color: var(--primary-color);
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-}
-
-.post-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  list-style: none;
-  padding: 0;
-}
-
-.post-card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: var(--card-shadow);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: left;
-}
-
-.post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.post-card a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.post-card-content {
-  padding: 1.5rem;
-}
-
-.post-card h2 {
-  font-size: 1.4rem;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-.post-card p {
-  font-size: 0.9rem;
-  color: #6c757d;
 }
 
 /* --- Estilos del detalle del Post --- */

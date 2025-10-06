@@ -1,6 +1,7 @@
 // c:\Users\hurie\OneDrive\Escritorio\rivelle_and_co\frontend\src\PostList.jsx
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
 
 // Es buena práctica tener la URL de la API en una variable de entorno
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1/blog';
@@ -33,20 +34,53 @@ function PostList() {
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div className="post-list-container" data-testid="post-list-container">
-      <h1>Nuestro Blog</h1>
-      {posts.length === 0 && <p>No hay posts todavía. ¡Crea algunos en el panel de admin de Django!</p>}
-      <div className="post-list">
-        {posts.map(post => (
-          <div className="post-card" key={post.id}>
-            <Link to={`/post/${post.slug}`} className="post-card-link">
-              <div className="post-card-content">
-                <h2>{post.title}</h2>
-                <p>Por: {post.author} - {new Date(post.created_at).toLocaleDateString()}</p>
+    <div className="bg-white antialiased">
+      <Navbar /> {/* Esto mostrará la versión del blog por defecto */}
+      <div className="container mx-auto px-4 py-12 max-w-2xl">
+        <h1 className="text-4xl font-bold text-gray-900 text-center mb-12">Nuestro Blog</h1>
+        {posts.length === 0 && !loading && <p className="text-center text-gray-500">No hay posts todavía. ¡Crea el primero!</p>}
+        <div className="flex flex-col items-center gap-12">
+          {posts.map(post => (
+            <article key={post.id} className="w-full bg-white border border-gray-200 rounded-none sm:rounded-lg overflow-hidden max-w-xl">
+              {/* Encabezado del Post */}
+              <div className="flex items-center p-3 border-b border-gray-200">
+                <div className="w-9 h-9 bg-gray-200 rounded-full flex-shrink-0"></div>
+                <p className="font-semibold text-sm text-gray-800 ml-3">{post.author}</p>
               </div>
-            </Link>
-          </div>
-        ))}
+
+              {/* Imagen */}
+              {post.image && (
+                <Link to={`/post/${post.slug}`}>
+                  <img src={post.image} alt={post.title} className="w-full h-auto max-h-[75vh] object-cover bg-gray-100" />
+                </Link>
+              )}
+
+              {/* Barra de Acciones */}
+              <div className="flex items-center justify-between p-3">
+                <div className="flex gap-4">
+                  <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-gray-700 hover:text-red-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                  </button>
+                  <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Título y Fecha */}
+              <div className="px-4 pb-4">
+                <Link to={`/post/${post.slug}`} className="hover:underline">
+                  <p className="text-gray-800"><span className="font-semibold">{post.author}</span> {post.title}</p>
+                </Link>
+                <p className="text-xs text-gray-400 uppercase mt-2">{new Date(post.created_at).toLocaleDateString()}</p>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </div>
   );

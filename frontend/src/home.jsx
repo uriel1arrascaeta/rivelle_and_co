@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Navbar from '../components/Navbar';
-import Hero from '../components/Hero';
-import Benefit from '../components/Benefit';
-import Testimonials from '../components/Testimonials';
-import Footer from '../components/Footer';
+import Navbar from './Navbar';
+import Hero from './Hero';
+import Benefit from './Benefit';
+import Testimonials from './testimonial';
+import Footer from './Footer';
 
 const benefits = [
   {
@@ -27,7 +27,7 @@ const benefits = [
 export default function Home() {
   return (
     <div className="bg-white antialiased">
-      <Navbar />
+      <Navbar page="home" />
       <Hero />
 
       {/* Benefits Section */}
