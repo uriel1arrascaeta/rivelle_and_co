@@ -12,6 +12,8 @@ class Post(models.Model):
         User, on_delete=models.CASCADE, related_name='blog_posts')
     content = models.TextField()
     image = models.ImageField(upload_to='posts_images/', blank=True, null=True)
+    likes = models.ManyToManyField(
+        User, related_name='liked_posts', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):

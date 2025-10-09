@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ export default function Login() {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setFormData({
@@ -40,10 +42,15 @@ export default function Login() {
       }
 
       const data = await response.json();
-      localStorage.setItem('token', data.token);
+      login(data.token, { role: data.role, first_name: data.first_name }); // Guardamos token y datos de usuario
       
-      // Redirigir al perfil del vendedor
-      navigate('/profile');
+      // Redirigir según el rol del usuario
+      if (data.role === 'admin') {
+        navigate('/admin-dashboard');
+      } else {
+        // Para 'agent' y 'buyer'
+        navigate('/profile');
+      }
 
     } catch (err) {
       setError(err.message);
@@ -60,8 +67,8 @@ export default function Login() {
             <input type="email" name="email" placeholder="Email" onChange={handleChange} required className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-600" />
             <input type="password" name="password" placeholder="Contraseña" onChange={handleChange} required className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-600" />
             <div className="flex items-baseline justify-between">
-              <button type="submit" className="px-6 py-2 mt-4 text-white bg-indigo-600 rounded-lg hover:bg-indigo-900">Iniciar Sesión</button>
-              <Link to="/" className="text-sm text-indigo-600 hover:underline">Volver al inicio</Link>
+              <button type="submit" className="bg-white border border-gray-300 text-sm font-semibold py-2 px-6 rounded-md text-gray-700 hover:bg-gray-50">Iniciar Sesión</button>
+              <Link to="/" className="text-sm text-gray-600 hover:underline">Volver al inicio</Link>
             </div>
           </div>
         </form>

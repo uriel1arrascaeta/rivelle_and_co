@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     # my apps
-    'products.apps.ProductsConfig',  # Puedes dejarla o quitarla si ya no la usas
     'blog.apps.BlogConfig',
     'accounts.apps.AccountsConfig',
 ]

@@ -82,7 +82,7 @@ export default function CreatePost() {
           <input type="file" name="extra_images" accept="image/*" multiple onChange={handleExtraImagesChange} className="w-full px-4 py-2 mb-4 border rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
           <input type="text" name="title" placeholder="Título del post" onChange={handleChange} required className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600" />
           <textarea name="content" placeholder="Contenido del post..." onChange={handleChange} required rows="10" className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"></textarea>
-          <button type="submit" className="w-full px-6 py-3 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors">Publicar Post</button>
+          <button type="submit" className="w-full px-6 py-3 text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50 transition-colors">Publicar Post</button>
         </form>
       </div>
     </div>

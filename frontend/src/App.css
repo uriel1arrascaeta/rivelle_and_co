@@ -21,6 +21,8 @@
 body {
   font-family: var(--font-family);
   background-color: var(--secondary-color);
+  background-color: #fff;
+  /* Cambiado a blanco */
   color: var(--text-color);
   line-height: 1.6;
 }
@@ -35,21 +37,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
-
-header {
-  background-color: var(--primary-color);
-  color: var(--light-text-color);
-  padding: 1rem 2rem;
-  text-align: left;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-header a {
-  color: var(--light-text-color);
-  text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: 700;
 }
 
 main {

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 export default function Navbar({ page }) {
   const isHomePage = page === 'home';
+  const { isLoggedIn, logout } = useAuth();
 
   return (
     <nav className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
@@ -11,22 +13,22 @@ export default function Navbar({ page }) {
           <Link to="/" className="text-2xl font-bold text-gray-800">
             {isHomePage ? 'HomeOS' : 'Blog'}
           </Link>
-          {isHomePage ? (
+          {isLoggedIn ? (
             <div className="flex items-center gap-2 md:gap-4">
-              <Link to="/login" className="bg-transparent text-indigo-600 font-semibold py-2 px-4 text-sm md:text-base md:px-5 rounded-full transition-all duration-300 ease-in-out hover:bg-indigo-100">
-                Iniciar Sesión
+              <Link to="/profile" className="bg-white border border-gray-300 text-sm font-semibold py-1 px-4 rounded-md text-gray-700 hover:bg-gray-50">
+                Mi Perfil
               </Link>
-              <Link to="/register" className="bg-indigo-600 text-white font-semibold py-2 px-4 text-sm md:text-base md:px-5 rounded-full transition-transform duration-300 ease-in-out hover:scale-105">
-                Registrarse
-              </Link>
+              <button onClick={logout} className="bg-white border border-gray-300 text-sm font-semibold py-1 px-4 rounded-md text-gray-700 hover:bg-gray-50">
+                Cerrar Sesión
+              </button>
             </div>
           ) : (
             <div className="flex items-center gap-2 md:gap-4">
-              <Link to="/" className="bg-transparent text-indigo-600 font-semibold py-2 px-4 text-sm md:text-base md:px-5 rounded-full transition-all duration-300 ease-in-out hover:bg-indigo-100">
-                Ir al Inicio
-              </Link>
-              <Link to="/login" className="bg-indigo-600 text-white font-semibold py-2 px-4 text-sm md:text-base md:px-5 rounded-full transition-transform duration-300 ease-in-out hover:scale-105">
+              <Link to="/login" className="bg-white border border-gray-300 text-sm font-semibold py-1 px-4 rounded-md text-gray-700 hover:bg-gray-50">
                 Iniciar Sesión
+              </Link>
+              <Link to="/register" className="bg-white border border-gray-300 text-sm font-semibold py-1 px-4 rounded-md text-gray-700 hover:bg-gray-50">
+                Registrarse
               </Link>
             </div>
           )}

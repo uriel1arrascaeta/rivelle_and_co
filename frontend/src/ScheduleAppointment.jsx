@@ -18,7 +18,7 @@ export default function ScheduleAppointment() {
           <div className="flex justify-center">
             <Calendar onChange={setDate} value={date} />
           </div>
-          <button className="w-full mt-6 bg-indigo-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300 ease-in-out hover:bg-indigo-700">
+          <button className="w-full mt-6 bg-white text-gray-700 font-semibold py-3 px-8 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors duration-300 ease-in-out">
             Confirmar Cita para {date.toLocaleDateString()}
           </button>
         </div>
