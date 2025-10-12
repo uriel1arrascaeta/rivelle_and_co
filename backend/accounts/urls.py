@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
-from .views import UserRegistrationViewSet, ProfileView, CustomAuthToken
+from .views import UserRegistrationViewSet, ProfileView, CustomAuthToken, PendingAgentsListView, AgentApprovalView, AllUsersListView
 
 # El router de DRF genera automáticamente las URLs para los ViewSets.
 router = DefaultRouter()
@@ -17,4 +17,10 @@ urlpatterns = [
     path('login/', CustomAuthToken.as_view(), name='api_token_auth'),
     # Ruta para el perfil: GET, PUT, PATCH /api/v1/accounts/profile/
     path('profile/', ProfileView.as_view(), name='user-profile'),
+    # Rutas para el admin
+    path('admin/pending-agents/',
+         PendingAgentsListView.as_view(), name='pending-agents'),
+    path('admin/agents/<int:pk>/approval/',
+         AgentApprovalView.as_view(), name='agent-approval'),
+    path('admin/all-users/', AllUsersListView.as_view(), name='all-users'),
 ]

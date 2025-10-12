@@ -21,7 +21,7 @@ export default function EditProfilePage() {
         });
         if (!response.ok) throw new Error('No se pudo cargar el perfil.');
         const data = await response.json();
-        setFormData({ first_name: data.first_name, email: data.email });
+        setFormData({ first_name: data.user.first_name, email: data.user.email });
       } catch (err) {
         setError(err.message);
       } finally {

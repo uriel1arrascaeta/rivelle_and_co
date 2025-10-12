@@ -45,7 +45,15 @@ export default function Login() {
       // Si la respuesta no es exitosa (ej. 400 Bad Request), procesamos el error.
       if (!response.ok) {
         const errorData = await response.json();
-        const errorMessage = errorData.non_field_errors ? errorData.non_field_errors.join(', ') : 'Email o contraseña incorrectos.';
+        let errorMessage = 'Email o contraseña incorrectos.';
+        if (errorData.non_field_errors) {
+            const errorString = errorData.non_field_errors.join(', ');
+            errorMessage = errorString;
+        }
+        // Mensaje específico para cuentas de corredor pendientes de aprobación.
+        if (errorData.non_field_errors && errorData.non_field_errors.includes('User account is disabled.')) {
+          errorMessage = 'Tu cuenta de corredor está pendiente de aprobación por un administrador.';
+        }
         throw new Error(errorMessage);
       }
 
@@ -54,11 +62,12 @@ export default function Login() {
       // Llamamos a la función 'login' del contexto para guardar la sesión.
       login(data.token, { role: data.role, first_name: data.first_name }); // Guardamos token y datos de usuario
       
-      // Redirigir según el rol del usuario
+      // Redirige al usuario a la página correcta según su rol.
       if (data.role === 'admin') {
         navigate('/admin-dashboard');
       } else {
-        navigate('/profile');
+        // Para 'agent' y 'buyer'
+        navigate('/profile'); 
       }
 
     } catch (err) {

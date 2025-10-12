@@ -40,30 +40,14 @@ export default function Register() {
         throw new Error(errorMessage || 'Error en el registro');
       }
 
-      const data = await response.json();
-
-      // Después de registrar, hacemos login para obtener los datos del usuario
-      const loginResponse = await fetch('http://127.0.0.1:8000/api/v1/accounts/login/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      if (!loginResponse.ok) {
-        throw new Error('Error al iniciar sesión después del registro.');
-      }
-
-      const loginData = await loginResponse.json();
-      login(loginData.token, { role: loginData.role, first_name: loginData.first_name });
-      
-      // Redirigir según el rol
-      if (loginData.role === 'admin') {
-        navigate('/admin-dashboard');
+      if (formData.role === 'buyer') {
+        // Para compradores, mostramos un mensaje de éxito y los enviamos a iniciar sesión.
+        alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
+        navigate('/login');
       } else {
-        navigate('/profile');
+        // Si es un corredor, se le muestra un mensaje de éxito y se le redirige al login.
+        alert('¡Registro exitoso! Tu solicitud ha sido enviada y está pendiente de aprobación por un administrador.');
+        navigate('/login');
       }
 
     } catch (err) {

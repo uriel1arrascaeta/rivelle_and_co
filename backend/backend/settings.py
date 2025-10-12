@@ -168,3 +168,11 @@ REST_FRAMEWORK = {
 MEDIA_URL = '/media/'
 # Directorio en el servidor donde se guardarán estos archivos.
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# --- Authentication Backends ---
+# Le dice a Django que use nuestro sistema personalizado para permitir login con email o username.
+AUTHENTICATION_BACKENDS = ['accounts.auth_backends.EmailOrUsernameBackend']
+
+# --- Authentication Backends ---
+# Le dice a Django que use nuestro sistema personalizado para permitir login con email o username.
+AUTHENTICATION_BACKENDS = ['accounts.auth_backends.EmailOrUsernameBackend']

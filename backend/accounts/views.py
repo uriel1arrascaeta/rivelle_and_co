@@ -1,6 +1,6 @@
 from rest_framework import viewsets, mixins, status, generics
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.contrib.auth.models import User
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -82,3 +82,54 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         profile, created = Profile.objects.get_or_create(
             user=self.request.user)
         return profile
+
+
+# --- Vistas para la Administración de Corredores ---
+
+class PendingAgentsListView(generics.ListAPIView):
+    """
+    Vista para que el admin vea los corredores pendientes de aprobación.
+    """
+    # Usamos el ProfileSerializer para obtener los datos del perfil y del usuario.
+    serializer_class = ProfileSerializer
+    # Solo los administradores pueden acceder.
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        # Filtramos los perfiles de usuarios que son corredores y están inactivos.
+        return Profile.objects.filter(user__is_active=False, role='agent')
+
+
+class AgentApprovalView(generics.UpdateAPIView):
+    """
+    Vista para que el admin apruebe o rechace a un corredor.
+    """
+    queryset = User.objects.filter(profile__role='agent')
+    permission_classes = [IsAdminUser]
+
+    def patch(self, request, *args, **kwargs):
+        user = self.get_object()
+        action = request.data.get("action")
+
+        if action == "approve":
+            user.is_active = True
+            user.save()
+            return Response({'status': 'Corredor aprobado'}, status=status.HTTP_200_OK)
+        elif action == "reject":
+            # Opcional: podrías marcarlo como rechazado en lugar de borrarlo.
+            user.delete()
+            return Response({'status': 'Corredor rechazado y eliminado'}, status=status.HTTP_204_NO_CONTENT)
+
+        return Response({'error': 'Acción no válida'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AllUsersListView(generics.ListAPIView):
+    """
+    Vista para que el admin vea una lista de todos los usuarios.
+    """
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        # Devuelve todos los perfiles, ordenados por fecha de registro del usuario.
+        return Profile.objects.all().order_by('-user__date_joined')

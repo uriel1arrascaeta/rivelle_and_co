@@ -33,13 +33,18 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Extraemos el rol antes de crear el usuario
         role = validated_data.pop('role', 'buyer')
+
+        # Los corredores necesitan aprobación, por lo que su cuenta se crea inactiva.
+        is_active = role != 'agent'
+
         # Creamos el usuario usando el método 'create_user' que encripta la contraseña.
         # Usamos el email como 'username' para asegurar que sea único.
         user = User.objects.create_user(
             username=validated_data['email'],
             email=validated_data['email'],
             password=validated_data['password'],
-            first_name=validated_data['first_name']
+            first_name=validated_data['first_name'],
+            is_active=is_active
         )
         # La señal ya creó un perfil básico, aquí actualizamos ese perfil con el rol seleccionado.
         user.profile.role = role
@@ -47,17 +52,23 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class UserDataSerializer(serializers.ModelSerializer):
+    """Un serializador interno para mostrar datos del usuario."""
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'email']
+
+
 # --- Serializador para el Perfil de Usuario ---
 class ProfileSerializer(serializers.ModelSerializer):
-    # Campos que obtienen datos del modelo User relacionado.
-    # 'source' indica de dónde sacar el dato.
-    first_name = serializers.CharField(source='user.first_name')
-    email = serializers.EmailField(source='user.email')
+    # Usamos un serializador anidado para obtener los datos del usuario.
+    # Es de solo lectura porque los datos del usuario se actualizan por separado.
+    user = UserDataSerializer(read_only=True)
 
     class Meta:
         model = Profile
         # Campos que se incluirán en la respuesta de la API para el perfil.
-        fields = ['avatar', 'first_name', 'email']
+        fields = ['user', 'avatar', 'role']
 
     # Sobrescribimos el método 'update' para manejar la actualización del perfil y del usuario anidado.
     def update(self, instance, validated_data):
