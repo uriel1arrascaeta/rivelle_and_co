@@ -3,14 +3,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
 export default function Login() {
+  // 'useState' para guardar los datos del formulario (email y contraseña).
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  // 'useState' para guardar y mostrar mensajes de error.
   const [error, setError] = useState(null);
+  // Hook para redirigir al usuario después de un login exitoso.
   const navigate = useNavigate();
+  // Obtenemos la función 'login' de nuestro contexto de autenticación.
   const { login } = useAuth();
 
+  // Función que se ejecuta cada vez que el usuario escribe en un campo del formulario.
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -18,37 +23,41 @@ export default function Login() {
     });
   };
 
+  // Función que se ejecuta cuando el usuario envía el formulario.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
+      // Hacemos una petición POST a la API de login con los datos del formulario.
       const response = await fetch('http://127.0.0.1:8000/api/v1/accounts/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        // El backend de DRF espera 'username' y 'password'
+        // El backend espera 'username' y 'password', y nuestro 'username' es el email.
         body: JSON.stringify({
           username: formData.email,
           password: formData.password
         }),
       });
 
+      // Si la respuesta no es exitosa (ej. 400 Bad Request), procesamos el error.
       if (!response.ok) {
         const errorData = await response.json();
         const errorMessage = errorData.non_field_errors ? errorData.non_field_errors.join(', ') : 'Email o contraseña incorrectos.';
         throw new Error(errorMessage);
       }
 
+      // Si la respuesta es exitosa, obtenemos los datos (token, rol, etc.).
       const data = await response.json();
+      // Llamamos a la función 'login' del contexto para guardar la sesión.
       login(data.token, { role: data.role, first_name: data.first_name }); // Guardamos token y datos de usuario
       
       // Redirigir según el rol del usuario
       if (data.role === 'admin') {
         navigate('/admin-dashboard');
       } else {
-        // Para 'agent' y 'buyer'
         navigate('/profile');
       }
 
@@ -61,6 +70,7 @@ export default function Login() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-lg">
         <h3 className="text-2xl font-bold text-center">Iniciar Sesión</h3>
+        {/* Muestra el mensaje de error si existe. */}
         {error && <div className="mt-4 text-red-600 bg-red-100 p-3 rounded">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mt-4">
